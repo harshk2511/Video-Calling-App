@@ -8,7 +8,7 @@ const chatInputBox = document.getElementById("chat_message");
 const all_messages = document.getElementById("all_messages");
 const mainchatwindow = document.getElementById("mainchatwindow");
 //
-
+let currentPeer;
 var videoGrid = document.getElementById("videoDiv");
 var myvideo = document.createElement("video");
 myvideo.muted = true;
@@ -26,6 +26,7 @@ navigator.mediaDevices
       const vid = document.createElement("video");
       call.on("stream", (userStream) => {
         addVideo(vid, userStream);
+        currentPeer = call.peerConnection;
       });
       call.on("error", (err) => {
         alert(err);
@@ -50,6 +51,8 @@ peer.on("open", (id) => {
   let li = document.createElement("li");
   li.innerHTML = "You joined!";
   all_messages.append(li);
+  li.innerHTML = `Your room ID is: ${roomID}. <br> Invite your friends to join!`;
+  all_messages.append(li)
   socket.emit("newUser", id, roomID, username);
 });
 peer.on("error", (err) => {
@@ -67,6 +70,7 @@ socket.on("userJoined", (id, name) => {
   });
   call.on("stream", (userStream) => {
     addVideo(vid, userStream);
+    currentPeer = call.peerConnection;
   });
   call.on("close", () => {
     vid.remove();
@@ -94,18 +98,14 @@ socket.on("createMessage", (msg, username) => {
   let li = document.createElement("li");
   li.innerHTML = `${username}: ${msg}`;
   all_messages.append(li);
-  all_messages.appendChild(li);
   //mainchatwindow.scrollTop = mainchatwindow.scrollHeight;
+  //scrollToBottom();
 });
 
-function addVideo(video, stream) {
-  video.srcObject = stream;
-  video.addEventListener("loadedmetadata", () => {
-    video.play();
-    video.muted = true;
-  });
-  videoGrid.append(video);
-}
+const scrollToBottom = () => {
+  var d = document.getElementById("mainchatwindow");
+  d.scrollTop(d.prop("scrollHeight"));
+};
 
 let isAudioMuted = true;
 function muteAudio() {
@@ -134,3 +134,137 @@ function pauseVideo() {
     document.getElementById("pausevideospan").textContent = "Pause Video";
   }
 }
+
+//let mystreamvideo = document.createElement("video");
+function addVideo(video, stream) {
+  video.srcObject = stream;
+  video.addEventListener("loadedmetadata", () => {
+    video.play();
+    video.muted = true;
+  });
+  videoGrid.append(video);
+  mystreamvideo = video;
+}
+
+let check=true;
+function leavemeeting() {
+  if (check == true) {
+    if (window.confirm("Leave Meeting?")) {
+      window.close();
+    }
+  }
+  socket.emit('disconnecteduser')
+}
+
+// var videoTrack;
+// isScreenshareon = true;
+// function startStopScreenshare() {
+//   if (isScreenshareon) {
+//     // mystream = document.createElement("video");
+//     // mystream.controls = true;
+//     // navigator.mediaDevices
+//     //   .getDisplayMedia({
+//     //     video: {
+//     //       cursor: true,
+          
+//     //     },
+//     //     audio: {
+//     //       noiseSuppression: true,
+//     //       echoCancellation: true,
+//     //     },
+//     //   })
+//     //   .then((stream) => {
+//     //     //videoTrack = stream.getVideoTracks()[0];
+//     //     addVideo(mystream, stream);
+//     //     videoTrack = stream;
+//     //     peer.on("call", (call) => {
+//     //       call.answer(stream);
+//     //       const vid = document.createElement("video");
+//     //       call.on("stream", (userStream) => {
+//     //         addVideo(vid, userStream);
+//     //         currentPeer = call.peerConnection;
+//     //       });
+//     //       call.on("error", (err) => {
+//     //         alert(err);
+//     //       });
+//     //       call.on("close", () => {
+//     //         console.log(vid);
+//     //         vid.remove();
+//     //       });
+//     //       peerConnections[call.peer] = call;
+//     //     });
+//     //     stream.getVideoTracks()[0].onended = function () {
+//     //       mystreamvideo.remove();
+//     //       isScreenshareon = !isScreenshareon;
+//     //       document.getElementById("screensharespan").textContent =
+//     //         "Screenshare";
+//     //       document.getElementById("screensharebtn").style.color = "black";
+//     //     };
+//     //   });
+//     socket.emit("screensharetrigger", myId, username);
+//     // document.getElementById("screensharespan").textContent = "Stop sharing";
+//     // document.getElementById("screensharebtn").style.color = "red";
+//   } else {
+//     //problem - when we directly click stop screenshare, video is ending but screenshare is not
+//     //videoTrack.onended = function () {
+//       mystreamvideo.remove();
+//       document.getElementById("screensharespan").textContent = "Screenshare";
+//       document.getElementById("screensharebtn").style.color = "black";
+//       //isScreenshareon = !isScreenshareon;
+//     //}
+//   }
+//   isScreenshareon = !isScreenshareon;
+//   console.log('isScreenshareOn: ' + isScreenshareon);
+// }
+
+// // socket.on("screenDisconnect", () => {});
+
+// socket.on("screenJoined", (id, name) => {
+//   console.log("new user joined" + name);
+//   let li = document.createElement("li");
+//   li.innerHTML = `${name} started screenshare!`;
+//   all_messages.append(li);
+//   mystream = document.createElement("video");
+//     mystream.controls = true;
+//     navigator.mediaDevices
+//       .getDisplayMedia({
+//         video: {
+//           cursor: true,
+          
+//         },
+//         audio: {
+//           noiseSuppression: true,
+//           echoCancellation: true,
+//         },
+//       })
+//       .then((stream) => {
+//         //videoTrack = stream.getVideoTracks()[0];
+//         addVideo(mystream, stream);
+//         videoTrack = stream;
+//         peer.on("call", (call) => {
+//           call.answer(stream);
+//           const vid = document.createElement("video");
+//           call.on("stream", (userStream) => {
+//             addVideo(vid, userStream);
+//             currentPeer = call.peerConnection;
+//           });
+//           call.on("error", (err) => {
+//             alert(err);
+//           });
+//           call.on("close", () => {
+//             console.log(vid);
+//             vid.remove();
+//           });
+//           peerConnections[call.peer] = call;
+//         });
+//         stream.getVideoTracks()[0].onended = function () {
+//           mystreamvideo.remove();
+//           isScreenshareon = !isScreenshareon;
+//           document.getElementById("screensharespan").textContent =
+//             "Screenshare";
+//           document.getElementById("screensharebtn").style.color = "black";
+//         };
+//       });
+//       document.getElementById("screensharespan").textContent = "Stop sharing";
+//       document.getElementById("screensharebtn").style.color = "red";
+// });

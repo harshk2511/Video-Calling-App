@@ -31,6 +31,16 @@ io.on("connection" , (socket)=>{
     socket.on('disconnect' , ()=>{
         socket.to(room).broadcast.emit('userDisconnect' , id, name);
     })
+    socket.on('disconnecteduser', ()=>{
+      socket.to(room).broadcast.emit('userDisconnect' , id, name);
+    })
+    // socket.on('screensharetrigger', (id, username) => {
+    //   //socket.join(room)
+    //   socket.to(room).broadcast.emit('screenJoined' , id, username);
+    // })
+    // socket.on('screen-disconnect', () => {
+    //   socket.to(room).broadcast.emit('screenDisconnect');
+    // })
   })
 })
 server.listen(port , ()=>{

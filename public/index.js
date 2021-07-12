@@ -51,7 +51,7 @@ peer.on("open", (id) => {
   let li = document.createElement("li");
   li.innerHTML = "You joined!";
   all_messages.append(li);
-  li.innerHTML = `Your room ID is: ${roomID}. <br> Invite your friends to join!`;
+  li.innerHTML = `Your room ID is: ${roomID} <br> Invite your friends to join!`;
   all_messages.append(li)
   socket.emit("newUser", id, roomID, username);
 });

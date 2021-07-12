@@ -9,7 +9,7 @@
       }
       html,
       body {
-        background-color: grey;
+        background-color: #0e2433;
         height: 100%;
       }
       #videoDiv {
@@ -34,7 +34,7 @@
         display: inline;
         width: 1236px;
         height: 70px;
-        background-color: rgb(56, 56, 56);
+        background-color: #7e92b4;
         position: fixed;
         bottom: 0px;
       }
@@ -50,8 +50,8 @@
         display: block;
       }
       .user__buttons:hover {
-        padding: 10px;
-        background-color: teal;
+        /* padding: 10px; */
+        background-color: rgb(202, 202, 202);
       }
       .user__buttons i {
         font-size: 15px;
@@ -59,7 +59,7 @@
       .chatwindowwhole {
         height: 100vh;
         width: 300px;
-        background-color: rgb(246, 242, 247);
+        background-color: #52648e;
         float: right;
       }
       .chatwindowwhole input {
@@ -93,11 +93,13 @@
         text-align: center;
         justify-content: center;
         list-style-type: none;
+        margin-right: 30px;
       }
       .mainchatwindow ul li {
         margin-top: 10px;
         border-radius: 10px;
-        background-color: rgb(227, 211, 240);
+        /* background-color: #a6c6ff; */
+        background-color: #cddfff;
         padding: 10px;
       }
     </style>
@@ -155,7 +157,7 @@
         >
           <span id="screensharespan">Screenshare</span>
         </i> -->
-        <i class="fa fa-camera user__buttons" id="leave" onclick="leavemeeting()"><span>Leave Meeting</span></i>
+        <i class="fa fa-sign-out user__buttons" id="leave" onclick="leavemeeting()"><span>Leave Meeting</span></i>
       </div>
     </div>
   </body>

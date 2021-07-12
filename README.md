@@ -11,11 +11,11 @@ Frameworks and Libraries used are:
 <br />
 To run this project on your local machine: <br /> <br />
 
-  Make sure you have node downloaded: https://nodejs.org/en/ <br />
+  Download NodeJS: https://nodejs.org/en/ <br />
 
-  If you have not downloaded the ```package.json``` file: <br />
+  If you have not downloaded the ```package.json``` file from the repo: <br />
   1. Run ```npm init -y``` <br />
-  2. Go to package.json and add a script called 'start' using which we can run our server with nodemon: ```"script": "nodemon server.js"``` <br /><br />
+  2. Go to package.json and add a script called 'start' using which we can run our server with nodemon: ```"script": "nodemon server.js"``` <br />
 
   And you can continue with the next steps:<br />
 

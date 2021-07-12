@@ -12,8 +12,8 @@ Frameworks and Libraries used are:
 To run this project on your local machine: <br /> <br />
 (
   If you have not downloaded the ```package.json``` file: <br />
-  I. Run ```npm init -y``` <br />
-  II. Go to package.json and add a script called 'start' using which we can run our server with nodemon: ```"script": "nodemon server.js"``` )<br /><br />
+  1. Run ```npm init -y``` <br />
+  2. Go to package.json and add a script called 'start' using which we can run our server with nodemon: ```"script": "nodemon server.js"``` )<br /><br />
 
 1. Install all the libraries using ```npm i express ejs peer socket.io```<br />
 2. Install nodemon ```npm i --save-dev nodemon``` which reflects our changes on webpage without us needing to manually restart server with every change<br />
